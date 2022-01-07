@@ -14,17 +14,28 @@ public class RailwayTrain {
     final int railcarLength = 15;
 
     ArrayList<Integer> railcars; // Идентификаторы вагонов
-    int time; // время в минутах с момента начала моделирования
-    int offsetStart; // отступ в метрах от switchStart до центра первого вагона
+    int time;
+    int offsetStart;
     int offsetEnd; // отступ в метрах от switchStart до центра последнего вагона
-    RailwayTrack track; // путь, на котором находится состав
+    RailwayTrack track;
 
     public RailwayTrain() {
         this.railcars = new ArrayList<>();
     }
 
-    public RailwayTrain(ArrayList<Integer> railcars) {
-        this.railcars = railcars;
+    /**
+     * Конструктор для состава из одного вагона
+     * @param railcar - идентификатор вагона
+     * @param time – время в минутах с момента начала моделирования
+     * @param offsetStart – отступ в метрах от switchStart до центра последнего вагона
+     * @param trackName - идентификатор пути, на котором находится состав
+     */
+    public RailwayTrain(int railcar, int time, int offsetStart, String trackName) {
+        this.railcars = new ArrayList<>();
+        this.railcars.add(railcar);
+        this.time = time;
+        this.setOffsetStart(offsetStart);
+        this.setTrack(trackName);
     }
 
     public ArrayList<Integer> getRailcars() {
