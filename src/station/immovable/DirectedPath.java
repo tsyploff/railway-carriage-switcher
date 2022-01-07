@@ -26,13 +26,6 @@ public class DirectedPath {
     }
 
     /**
-     *  Добавляет промежуточные вершины в путь.
-     */
-    public void addIntermediateTrack(String trackName) {
-        this.intermediateTracks.add(trackName);
-    }
-
-    /**
      * Возвращает список идентификаторов (!) железнодорожных путей, начиная с from и
      * заканчивая to.
      */
@@ -54,6 +47,13 @@ public class DirectedPath {
             path.add(RailwayTrack.get(trackName));
         }
         return path;
+    }
+
+    /**
+     *  Добавляет промежуточные вершины в путь.
+     */
+    public void addIntermediateTrack(String trackName) {
+        this.intermediateTracks.add(trackName);
     }
 
     /**
