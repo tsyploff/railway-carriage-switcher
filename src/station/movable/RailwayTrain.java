@@ -15,11 +15,11 @@ public class RailwayTrain {
 
     final static int railcarLength = 15;
 
-    ArrayList<Integer> railcars; // Идентификаторы вагонов
-    boolean reverseOrientation;
-    int time;
-    int offsetStart;
-    RailwayTrack track;
+    private ArrayList<Integer> railcars; // Идентификаторы вагонов
+    private boolean reverseOrientation;
+    private int time;
+    private int offsetStart;
+    private RailwayTrack track;
 
     /**
      * Конструктор для состава из одного вагона

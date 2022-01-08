@@ -22,13 +22,13 @@ import station.immovable.TrackConnectionType;
  */
 public class ShuntingLocomotive {
 
-    int time;
-    int speed; // скорость в метрах в минуту
-    int offsetStart;
-    RailwayTrack track;
-    RailwayTrain attachment;
-    MovementDirection movementDirection;
-    RailwayCouplingType railwayCouplingType;
+    private int time;
+    private int speed; // скорость в метрах в минуту
+    private int offsetStart;
+    private RailwayTrack track;
+    private RailwayTrain attachment;
+    private MovementDirection movementDirection;
+    private RailwayCouplingType railwayCouplingType;
 
     public ShuntingLocomotive(int time, int speed, int offsetStart, String trackName) {
         this.time = time;
@@ -42,6 +42,10 @@ public class ShuntingLocomotive {
 
     public void setMovementDirection(MovementDirection movementDirection) {
         this.movementDirection = movementDirection;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public void changeMovementDirection(MovementDirection movementDirection) {

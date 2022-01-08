@@ -6,11 +6,11 @@ public class RailwayTrack {
 
     final private static HashMap<String, RailwayTrack> trackNames = new HashMap<>(); // список всех путей
 
-    String trackName;
-    String switchStart;
-    String switchEnd;
-    int lengthMeters;
-    int wagonesCapacity;
+    private String trackName;
+    private String switchStart;
+    private String switchEnd;
+    private int lengthMeters;
+    private int wagonesCapacity;
 
     public RailwayTrack(String trackName, String switchStartName, String switchEndName, int lengthMeters) {
         new RailwayTrack(trackName, switchStartName, switchEndName, lengthMeters, 0);

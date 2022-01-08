@@ -1,7 +1,5 @@
 package station.immovable;
 
-import java.util.ArrayList;
-
 /**
  * DirectedPath это специальный класс, экземпляры которого представляют пары рёбер в графе
  * железнодорожных путей на станции. А имеено, если с пути A можно переехать на путь B, то
@@ -15,9 +13,9 @@ import java.util.ArrayList;
  */
 public class DirectedPath {
 
-    String from;
-    String to;
-    TrackConnectionType type;
+    private final String from;
+    private final String to;
+    private final TrackConnectionType type;
 
     public DirectedPath(String from, String to, TrackConnectionType type) {
         this.from = from;
@@ -35,18 +33,6 @@ public class DirectedPath {
 
     public TrackConnectionType getType() {
         return type;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-    public void setType(TrackConnectionType type) {
-        this.type = type;
     }
 
 }
