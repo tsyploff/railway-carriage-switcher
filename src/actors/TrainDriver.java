@@ -4,6 +4,4 @@ import station.movable.ShuntingLocomotive;
 
 public class TrainDriver {
 
-
-
 }

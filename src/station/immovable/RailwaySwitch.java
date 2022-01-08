@@ -11,13 +11,13 @@ package station.immovable;
  * Поскольку запуск программы и инициализация объектов происходит через Wolfram, выгоднее
  * импользовать идентификаторы (т. е. примитивные типы) в аргументах.
  */
-public class DirectedPath {
+public class RailwaySwitch {
 
     private final String from;
     private final String to;
     private final TrackConnectionType type;
 
-    public DirectedPath(String from, String to, TrackConnectionType type) {
+    public RailwaySwitch(String from, String to, TrackConnectionType type) {
         this.from = from;
         this.to = to;
         this.type = type;
