@@ -13,7 +13,7 @@ import station.immovable.RailwayTrack;
  */
 public class RailwayTrain {
 
-    final int railcarLength = 15;
+    final static int railcarLength = 15;
 
     ArrayList<Integer> railcars; // Идентификаторы вагонов
     boolean reverseOrientation;
@@ -66,7 +66,7 @@ public class RailwayTrain {
         return offsetStart;
     }
 
-    public int getRailcarLength() {
+    public static int getRailcarLength() {
         return railcarLength;
     }
 
@@ -78,8 +78,8 @@ public class RailwayTrain {
         this.track = RailwayTrack.get(trackName);
     }
 
-    public void setReverseOrientation(boolean reverseOrientation) {
-        this.reverseOrientation = reverseOrientation;
+    public void changeReverseOrientation() {
+        this.reverseOrientation = !this.reverseOrientation;
     }
 
     public void addTime(int timeDelta) {
@@ -159,7 +159,7 @@ public class RailwayTrain {
         this.reverseOrientation = false;
         this.offsetStart += railcarLength * railcarCount;
 
-        return new RailwayTrain(left, this.time, this.offsetStart, this.track, this.reverseOrientation);
+        return new RailwayTrain(left, this.time, this.offsetStart, this.track, false);
     }
 
     /**
