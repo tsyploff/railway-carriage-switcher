@@ -14,53 +14,39 @@ import java.util.ArrayList;
  * импользовать идентификаторы (т. е. примитивные типы) в аргументах.
  */
 public class DirectedPath {
+
     String from;
     String to;
+    TrackConnectionType type;
 
-    ArrayList<String> intermediateTracks;
-
-    public DirectedPath(String from, String to) {
+    public DirectedPath(String from, String to, TrackConnectionType type) {
         this.from = from;
         this.to = to;
-        this.intermediateTracks = new ArrayList<>();
+        this.type = type;
     }
 
-    /**
-     * Возвращает список идентификаторов (!) железнодорожных путей, начиная с from и
-     * заканчивая to.
-     */
-    public ArrayList<String> getTrackNames() {
-        ArrayList<String> path = new ArrayList<>();
-        path.add(this.from);
-        path.addAll(this.intermediateTracks);
-        path.add(to);
-        return path;
+    public String getFrom() {
+        return from;
     }
 
-    /**
-     * Возвращает список железнодорожных путей (!), т. е. экземпляров класса RailwayTrack,
-     * у которых можно посмотреть длину, вместимость и т. д.
-     */
-    public ArrayList<RailwayTrack> getTracks() {
-        ArrayList<RailwayTrack> path = new ArrayList<>();
-        for (String trackName: this.getTrackNames()) {
-            path.add(RailwayTrack.get(trackName));
-        }
-        return path;
+    public String getTo() {
+        return to;
     }
 
-    /**
-     *  Добавляет промежуточные вершины в путь.
-     */
-    public void addIntermediateTrack(String trackName) {
-        this.intermediateTracks.add(trackName);
+    public TrackConnectionType getType() {
+        return type;
     }
 
-    /**
-     * Путь называется простым, если не содержит промежуточных ж/д путей.
-     */
-    public boolean isSimple() {
-        return this.intermediateTracks.isEmpty();
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public void setType(TrackConnectionType type) {
+        this.type = type;
     }
 
 }

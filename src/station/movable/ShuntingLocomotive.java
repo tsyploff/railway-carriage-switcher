@@ -44,6 +44,15 @@ public class ShuntingLocomotive {
         this.movementDirection = movementDirection;
     }
 
+    public void changeMovementDirection(MovementDirection movementDirection) {
+        if (this.movementDirection == MovementDirection.FORWARD) {
+            this.movementDirection = MovementDirection.BACKWARD;
+        } else {
+            this.movementDirection = MovementDirection.FORWARD;
+        }
+
+    }
+
     public void setTrack(String trackName) {
         this.track = RailwayTrack.get(trackName);
     }
