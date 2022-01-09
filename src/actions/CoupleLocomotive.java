@@ -6,8 +6,8 @@ package actions;
  */
 public class CoupleLocomotive extends Action {
 
-    int trainId;
-    int locomotiveId;
+    private final int trainId;
+    private final int locomotiveId;
 
     public CoupleLocomotive(int time, int trainId, int locomotiveId) {
         super(ActionType.COUPLE_LOCOMOTIVE, time);

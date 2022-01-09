@@ -61,10 +61,6 @@ public class ShuntingLocomotive {
         this.attachmentId = attachmentId;
     }
 
-    public Integer getAttachmentId() {
-        return this.attachmentId;
-    }
-
     public void setSpeed(int speed) {
         this.speed = speed;
     }

@@ -2,7 +2,7 @@ package actions;
 
 public class UncoupleLocomotive extends Action {
 
-    int locomotiveId;
+    private final int locomotiveId;
 
     public UncoupleLocomotive(int time, int locomotiveId) {
         super(ActionType.UNCOUPLE_LOCOMOTIVE, time);

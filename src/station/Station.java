@@ -1,6 +1,7 @@
 package station;
 
 import actions.*;
+import station.immovable.RailwaySwitch;
 import station.movable.RailwayCouplingType;
 import station.movable.RailwayTrain;
 import station.movable.ShuntingLocomotive;
@@ -56,6 +57,8 @@ public class Station {
             case COUPLE_WAGONS: log.addAll(this.executeCW((CoupleWagons) action));
             case UNCOUPLE_WAGONS: log.addAll(this.executeUW((UncoupleWagons) action));
             case COUPLE_LOCOMOTIVE: log.addAll(this.executeCL((CoupleLocomotive) action));
+            case UNCOUPLE_LOCOMOTIVE: log.addAll(this.executeUL((UncoupleLocomotive) action));
+            case MOVE_TO_ANOTHER_TRACK: log.addAll(this.executeMTAT((MoveToAnotherTrack) action));
         }
 
         return log;
@@ -203,6 +206,25 @@ public class Station {
             log.add(String.format("Время: %d. Локомотив %d отцеплён от состава", time, locomotiveId));
         }
 
+        return log;
+    }
+
+    private ArrayList<String> executeMTAT(MoveToAnotherTrack action) {
+        ArrayList<String> log = new ArrayList<>();
+
+        int locomotiveId = action.getLocomotiveId();
+        int offsetStart = action.getOffsetStart();
+        RailwaySwitch railwaySwitch = action.getRailwaySwitch();
+        String trackName = railwaySwitch.getTo();
+
+        ShuntingLocomotive locomotive = this.locomotives.get(locomotiveId);
+        locomotive.drive(offsetStart, trackName, railwaySwitch.getType());
+
+        int time = action.getTime();
+        log.add(String.format("Время: %d. Локомотив %d начал движение.", time, locomotiveId));
+        time = locomotive.getTime();
+        log.add(String.format("Время: %d. Локомотив %d переместился на путь %s.", time, locomotiveId, trackName));
+        log.add(String.format("Время: %d. Локомотив %d закончил движение.", time, locomotiveId));
         return log;
     }
 
