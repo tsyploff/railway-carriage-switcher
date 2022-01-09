@@ -105,6 +105,13 @@ public class RailwayTrain {
         this.offsetStart = offsetStart;
     }
 
+    public void correctOrientation() {
+        if (this.reverseOrientation) {
+            this.reverseOrientation = false;
+            Collections.reverse(this.railcars);
+        }
+    }
+
     /**
      * Присоединяет состав справа. Будем говорить, что состав other расположен справа относительно
      * состава this, если this.offsetStart + this.railcars.size() * railcarLength <= other.offsetStart

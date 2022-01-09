@@ -12,11 +12,11 @@ public class UncoupleWagons extends Action {
     }
 
     public int getTrainId() {
-        return trainId;
+        return this.trainId;
     }
 
     public int getLeftCount() {
-        return leftCount;
+        return this.leftCount;
     }
 
 }

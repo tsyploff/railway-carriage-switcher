@@ -1,9 +1,6 @@
 package station;
 
-import actions.Action;
-import actions.CoupleWagons;
-import actions.SwitchMovementDirection;
-import actions.UncoupleWagons;
+import actions.*;
 import station.movable.RailwayCouplingType;
 import station.movable.RailwayTrain;
 import station.movable.ShuntingLocomotive;
@@ -58,6 +55,7 @@ public class Station {
             case SWITCH_MOVEMENT_DIRECTION: log.addAll(this.executeSMD((SwitchMovementDirection) action));
             case COUPLE_WAGONS: log.addAll(this.executeCW((CoupleWagons) action));
             case UNCOUPLE_WAGONS: log.addAll(this.executeUW((UncoupleWagons) action));
+            case COUPLE_LOCOMOTIVE: log.addAll(this.executeCL((CoupleLocomotive) action));
         }
 
         return log;
@@ -106,6 +104,8 @@ public class Station {
         int leftCount = action.getLeftCount();
         int time = action.getTime();
 
+        log.add(String.format("Время: %d. Состав %d расцеплён на %d и %d", time, rightId, this.trainId, rightId));
+
         RailwayTrain left;
         RailwayTrain right = this.trains.get(rightId);
 
@@ -118,16 +118,20 @@ public class Station {
             ShuntingLocomotive locomotive = this.locomotives.get(locomotiveId);
             RailwayCouplingType type = locomotive.getRailwayCouplingType();
             locomotive.removeAttachment();
+            right.setLocomotiveId(null);
 
             right.setTime(time);
             left = right.popLeft(leftCount);
 
             if (type == RailwayCouplingType.FRONT) {
                 locomotive.setAttachment(left, type);
+                left.setLocomotiveId(locomotiveId);
             } else {
                 locomotive.setAttachment(right, type);
+                right.setLocomotiveId(locomotiveId);
             }
 
+            locomotive.setTime(time);
             this.locomotives.put(locomotiveId, locomotive);
         }
 
@@ -135,6 +139,34 @@ public class Station {
         this.trains.put(rightId, right);
         this.addTrain(left);
 
+        return log;
+    }
+
+    private ArrayList<String> executeCL(CoupleLocomotive action) {
+        ArrayList<String> log = new ArrayList<>();
+
+        int trainId = action.getTrainId();
+        int locomotiveId = action.getLocomotiveId();
+        int time = action.getTime();
+
+        ShuntingLocomotive locomotive = this.locomotives.get(locomotiveId);
+        RailwayTrain train = this.trains.get(trainId);
+        train.correctOrientation();
+
+        train.setLocomotiveId(locomotiveId);
+        if (train.getOffsetStart() < locomotive.getOffsetStart()) {
+            locomotive.setAttachment(train, RailwayCouplingType.REAR);
+        } else {
+            locomotive.setAttachment(train, RailwayCouplingType.FRONT);
+        }
+
+        locomotive.setTime(time);
+        train.setTime(time);
+
+        this.locomotives.put(locomotiveId, locomotive);
+        this.trains.put(trainId, train);
+
+        log.add(String.format("Время: %d. Состав %d сцеплён с локомотивом %d", time, trainId, locomotiveId));
         return log;
     }
 

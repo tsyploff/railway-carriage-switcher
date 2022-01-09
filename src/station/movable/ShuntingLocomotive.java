@@ -40,8 +40,12 @@ public class ShuntingLocomotive {
         this.railwayCouplingType = RailwayCouplingType.REAR;
     }
 
+    public int getOffsetStart() {
+        return this.offsetStart;
+    }
+
     public RailwayCouplingType getRailwayCouplingType() {
-        return railwayCouplingType;
+        return this.railwayCouplingType;
     }
 
     public void setMovementDirection(MovementDirection movementDirection) {

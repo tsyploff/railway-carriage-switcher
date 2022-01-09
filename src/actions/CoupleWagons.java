@@ -12,11 +12,11 @@ public class CoupleWagons extends Action {
     }
 
     public int getLeftId() {
-        return leftId;
+        return this.leftId;
     }
 
     public int getRightId() {
-        return rightId;
+        return this.rightId;
     }
 
 }
