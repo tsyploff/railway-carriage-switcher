@@ -218,6 +218,7 @@ public class Station {
         String trackName = railwaySwitch.getTo();
 
         ShuntingLocomotive locomotive = this.locomotives.get(locomotiveId);
+        locomotive.setSpeed(action.getSpeed());
         locomotive.drive(offsetStart, trackName, railwaySwitch.getType());
 
         int time = action.getTime();
