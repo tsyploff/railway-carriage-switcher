@@ -26,6 +26,7 @@ public class ShuntingLocomotive {
     private int speed; // скорость в метрах в минуту
     private int offsetStart;
     private RailwayTrack track;
+    private Integer attachmentId;
     private RailwayTrain attachment;
     private MovementDirection movementDirection;
     private RailwayCouplingType railwayCouplingType;
@@ -44,12 +45,24 @@ public class ShuntingLocomotive {
         return this.offsetStart;
     }
 
+    public int getTime() {
+        return this.time;
+    }
+
     public RailwayCouplingType getRailwayCouplingType() {
         return this.railwayCouplingType;
     }
 
     public void setMovementDirection(MovementDirection movementDirection) {
         this.movementDirection = movementDirection;
+    }
+
+    public void setAttachmentId(Integer attachmentId) {
+        this.attachmentId = attachmentId;
+    }
+
+    public Integer getAttachmentId() {
+        return this.attachmentId;
     }
 
     public void setSpeed(int speed) {
@@ -78,11 +91,12 @@ public class ShuntingLocomotive {
         this.railwayCouplingType = type;
     }
 
-    public RailwayTrain removeAttachment() {
-        RailwayTrain train = this.attachment;
+    public Integer removeAttachment() {
+        Integer trainId = this.attachmentId;
         this.attachment = null;
+        this.attachmentId = null;
         this.railwayCouplingType = RailwayCouplingType.REAR;
-        return train;
+        return trainId;
     }
 
     /**

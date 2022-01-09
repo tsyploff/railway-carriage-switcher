@@ -93,6 +93,18 @@ public class Station {
 
         this.trains.put(leftId, left);
 
+        Integer leftLocomotiveId = left.getLocomotiveId();
+        Integer rightLocomotiveId = right.getLocomotiveId();
+        Integer locomotiveId = (leftLocomotiveId != null) ? leftLocomotiveId: rightLocomotiveId;
+
+        if (locomotiveId != null) {
+            ShuntingLocomotive locomotive = this.locomotives.get(locomotiveId);
+            RailwayCouplingType type = locomotive.getRailwayCouplingType();
+            locomotive.setAttachmentId(leftId);
+            left.setLocomotiveId(locomotiveId);
+            locomotive.setAttachment(left, type);
+        }
+
         log.add(String.format("Время: %d. К составу %d справа прицеплен состав %d.", time, leftId, rightId));
         return log;
     }
@@ -117,16 +129,17 @@ public class Station {
         } else {
             ShuntingLocomotive locomotive = this.locomotives.get(locomotiveId);
             RailwayCouplingType type = locomotive.getRailwayCouplingType();
-            locomotive.removeAttachment();
-            right.setLocomotiveId(null);
 
+            right.setLocomotiveId(null);
             right.setTime(time);
             left = right.popLeft(leftCount);
 
             if (type == RailwayCouplingType.FRONT) {
+                locomotive.setAttachmentId(this.trainId);
                 locomotive.setAttachment(left, type);
                 left.setLocomotiveId(locomotiveId);
             } else {
+                locomotive.setAttachmentId(rightId);
                 locomotive.setAttachment(right, type);
                 right.setLocomotiveId(locomotiveId);
             }
@@ -154,6 +167,7 @@ public class Station {
         train.correctOrientation();
 
         train.setLocomotiveId(locomotiveId);
+        locomotive.setAttachmentId(trainId);
         if (train.getOffsetStart() < locomotive.getOffsetStart()) {
             locomotive.setAttachment(train, RailwayCouplingType.REAR);
         } else {
@@ -167,6 +181,28 @@ public class Station {
         this.trains.put(trainId, train);
 
         log.add(String.format("Время: %d. Состав %d сцеплён с локомотивом %d", time, trainId, locomotiveId));
+        return log;
+    }
+
+    private ArrayList<String> executeUL(UncoupleLocomotive action) {
+        ArrayList<String> log = new ArrayList<>();
+
+        int locomotiveId = action.getLocomotiveId();
+        int time = action.getTime();
+
+        ShuntingLocomotive locomotive = this.locomotives.get(locomotiveId);
+        Integer trainId = locomotive.removeAttachment();
+        this.locomotives.put(locomotiveId, locomotive);
+
+        if (trainId != null) {
+            RailwayTrain train = this.trains.get(trainId);
+            train.setLocomotiveId(null);
+            this.trains.put(trainId, train);
+            log.add(String.format("Время: %d. Состав %d расцеплён с локомотивом %d", time, trainId, locomotiveId));
+        } else {
+            log.add(String.format("Время: %d. Локомотив %d отцеплён от состава", time, locomotiveId));
+        }
+
         return log;
     }
 
