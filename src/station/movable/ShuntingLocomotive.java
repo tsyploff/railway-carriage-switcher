@@ -7,11 +7,11 @@ import station.immovable.TrackConnectionType;
  * Класс для описания маневровых локомотивов. Локомотив в отличие от составов
  * может самостоятельно двигаться. Направление движения определяется enum:
  *
- *   если movementDirection == FORWARD, то движение от switchStart к switchEnd;
- *   если movementDirection == BACKWARD, то движение от switchEnd к switchStart.
+ *   если movementDirection == FORWARD, то движение от switchStart к switchEnd (слева направо);
+ *   если movementDirection == BACKWARD, то движение от switchEnd к switchStart (справа налево).
  *
  * Спереди и сзади у локомотива есть сцепки, к которым может быть прикреплён
- * состав attachment. Если состав прикреплён спереди, то
+ * состав attachment. Если состав прикреплён спереди (справа), то
  * railwayCouplingType == FRONT, иначе REAR.
  *
  * Если movementDirection == FORWARD и railwayCouplingType == REAR, то локомотив
@@ -22,13 +22,14 @@ import station.immovable.TrackConnectionType;
  */
 public class ShuntingLocomotive {
 
-    int time;
-    int speed; // скорость в метрах в минуту
-    int offsetStart;
-    RailwayTrack track;
-    RailwayTrain attachment;
-    MovementDirection movementDirection;
-    RailwayCouplingType railwayCouplingType;
+    private int time;
+    private int speed; // скорость в метрах в минуту
+    private int offsetStart;
+    private RailwayTrack track;
+    private Integer attachmentId;
+    private RailwayTrain attachment;
+    private MovementDirection movementDirection;
+    private RailwayCouplingType railwayCouplingType;
 
     public ShuntingLocomotive(int time, int speed, int offsetStart, String trackName) {
         this.time = time;
@@ -40,17 +41,41 @@ public class ShuntingLocomotive {
         this.railwayCouplingType = RailwayCouplingType.REAR;
     }
 
+    public int getOffsetStart() {
+        return this.offsetStart;
+    }
+
+    public int getTime() {
+        return this.time;
+    }
+
+    public RailwayCouplingType getRailwayCouplingType() {
+        return this.railwayCouplingType;
+    }
+
     public void setMovementDirection(MovementDirection movementDirection) {
         this.movementDirection = movementDirection;
     }
 
-    public void changeMovementDirection(MovementDirection movementDirection) {
+    public void setAttachmentId(Integer attachmentId) {
+        this.attachmentId = attachmentId;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void changeMovementDirection() {
         if (this.movementDirection == MovementDirection.FORWARD) {
             this.movementDirection = MovementDirection.BACKWARD;
         } else {
             this.movementDirection = MovementDirection.FORWARD;
         }
 
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 
     public void setTrack(String trackName) {
@@ -62,11 +87,12 @@ public class ShuntingLocomotive {
         this.railwayCouplingType = type;
     }
 
-    public RailwayTrain removeAttachment() {
-        RailwayTrain train = this.attachment;
+    public Integer removeAttachment() {
+        Integer trainId = this.attachmentId;
         this.attachment = null;
+        this.attachmentId = null;
         this.railwayCouplingType = RailwayCouplingType.REAR;
-        return train;
+        return trainId;
     }
 
     /**

@@ -27,6 +27,7 @@ import station.movable.MovementDirection;
  *   RailwayTrack(trackName=1, switchStartName=1, switchEndName=2)
  *   RailwayTrack(trackName=2, switchStartName=3, switchEndName=2)
  *
+ * Если trackOrientationChange == true, то ориентация вагонов меняется и тип сцепки меняется.
  */
 public enum TrackConnectionType {
 
@@ -35,11 +36,8 @@ public enum TrackConnectionType {
     END_TO_START(MovementDirection.FORWARD, false),
     END_TO_END(MovementDirection.BACKWARD, true);
 
-    MovementDirection movementDirection; // направление движение после переезда стрелки
-    /**
-     * Если trackOrientationChange == true, то ориентация вагонов меняется и тип сцепки меняется.
-     */
-    boolean trackOrientationChange;
+    private final MovementDirection movementDirection; // направление движение после переезда стрелки
+    private final boolean trackOrientationChange;
 
     TrackConnectionType(MovementDirection movementDirection, boolean trackOrientationChange) {
         this.trackOrientationChange = trackOrientationChange;
@@ -53,4 +51,5 @@ public enum TrackConnectionType {
     public boolean isTrackOrientationChange() {
         return trackOrientationChange;
     }
+
 }

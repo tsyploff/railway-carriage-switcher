@@ -1,0 +1,12 @@
+package actions;
+
+public enum ActionType {
+
+    COUPLE_WAGONS,
+    UNCOUPLE_WAGONS,
+    COUPLE_LOCOMOTIVE,
+    UNCOUPLE_LOCOMOTIVE,
+    MOVE_TO_ANOTHER_TRACK,
+    SWITCH_MOVEMENT_DIRECTION
+
+}
