@@ -62,15 +62,15 @@ public class RailwayTrain {
     }
 
     public Integer getLocomotiveId() {
-        return locomotiveId;
+        return this.locomotiveId;
     }
 
     public ArrayList<Integer> getRailcars() {
-        return railcars;
+        return this.railcars;
     }
 
     public int getOffsetStart() {
-        return offsetStart;
+        return this.offsetStart;
     }
 
     public static int getRailcarLength() {
@@ -78,7 +78,7 @@ public class RailwayTrain {
     }
 
     public boolean getReverseOrientation() {
-        return reverseOrientation;
+        return this.reverseOrientation;
     }
 
     public void setLocomotiveId(Integer locomotiveId) {
@@ -119,16 +119,11 @@ public class RailwayTrain {
     public void concatenateRight(RailwayTrain other) {
         ArrayList<Integer> railcars = new ArrayList<>(other.getRailcars());
 
-        if (this.reverseOrientation) {
-            Collections.reverse(this.railcars);
-        }
-
         if (other.getReverseOrientation()) {
             Collections.reverse(railcars);
         }
 
-        this.offsetStart = other.getOffsetStart();
-        this.reverseOrientation = false;
+        this.correctOrientation();
         this.railcars.addAll(railcars);
     }
 
@@ -139,9 +134,7 @@ public class RailwayTrain {
      * @return полученный состав
      */
     public RailwayTrain popLeft(int railcarCount) {
-        if (this.reverseOrientation) {
-            Collections.reverse(this.railcars);
-        }
+        this.correctOrientation();
 
         ArrayList<Integer> left = new ArrayList<>(railcarCount);
         ArrayList<Integer> right = new ArrayList<>(this.railcars.size() - railcarCount);
@@ -155,10 +148,10 @@ public class RailwayTrain {
         }
 
         this.railcars = right;
-        this.reverseOrientation = false;
-        this.offsetStart += railcarLength * railcarCount;
+        RailwayTrain train = new RailwayTrain(left, this.time, this.offsetStart, this.track, false);
 
-        return new RailwayTrain(left, this.time, this.offsetStart, this.track, false);
+        this.offsetStart += railcarLength * railcarCount;
+        return train;
     }
 
 }
