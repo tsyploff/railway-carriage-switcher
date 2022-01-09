@@ -7,11 +7,11 @@ import station.immovable.TrackConnectionType;
  * Класс для описания маневровых локомотивов. Локомотив в отличие от составов
  * может самостоятельно двигаться. Направление движения определяется enum:
  *
- *   если movementDirection == FORWARD, то движение от switchStart к switchEnd;
- *   если movementDirection == BACKWARD, то движение от switchEnd к switchStart.
+ *   если movementDirection == FORWARD, то движение от switchStart к switchEnd (слева направо);
+ *   если movementDirection == BACKWARD, то движение от switchEnd к switchStart (справа налево).
  *
  * Спереди и сзади у локомотива есть сцепки, к которым может быть прикреплён
- * состав attachment. Если состав прикреплён спереди, то
+ * состав attachment. Если состав прикреплён спереди (справа), то
  * railwayCouplingType == FRONT, иначе REAR.
  *
  * Если movementDirection == FORWARD и railwayCouplingType == REAR, то локомотив
@@ -40,6 +40,10 @@ public class ShuntingLocomotive {
         this.railwayCouplingType = RailwayCouplingType.REAR;
     }
 
+    public RailwayCouplingType getRailwayCouplingType() {
+        return railwayCouplingType;
+    }
+
     public void setMovementDirection(MovementDirection movementDirection) {
         this.movementDirection = movementDirection;
     }
@@ -48,13 +52,17 @@ public class ShuntingLocomotive {
         this.speed = speed;
     }
 
-    public void changeMovementDirection(MovementDirection movementDirection) {
+    public void changeMovementDirection() {
         if (this.movementDirection == MovementDirection.FORWARD) {
             this.movementDirection = MovementDirection.BACKWARD;
         } else {
             this.movementDirection = MovementDirection.FORWARD;
         }
 
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 
     public void setTrack(String trackName) {

@@ -20,9 +20,10 @@ public class RailwayTrain {
     private int time;
     private int offsetStart;
     private RailwayTrack track;
+    private Integer locomotiveId;
 
     /**
-     * Конструктор для состава из одного вагона
+     * Конструктор для состава из одного вагона, вызывается из WM.
      * @param railcar - идентификатор вагона
      * @param time – время в минутах с момента начала моделирования
      * @param offsetStart – отступ в метрах от switchStart до центра ближайшего к нему вагона
@@ -38,6 +39,7 @@ public class RailwayTrain {
         this.offsetStart = offsetStart;
         this.setTrack(trackName);
         this.reverseOrientation = reverseOrientation;
+        this.locomotiveId = null;
     }
 
     /**
@@ -56,6 +58,11 @@ public class RailwayTrain {
         this.offsetStart = offsetStart;
         this.track = track;
         this.reverseOrientation = reverseOrientation;
+        this.locomotiveId = null;
+    }
+
+    public Integer getLocomotiveId() {
+        return locomotiveId;
     }
 
     public ArrayList<Integer> getRailcars() {
@@ -74,8 +81,16 @@ public class RailwayTrain {
         return reverseOrientation;
     }
 
+    public void setLocomotiveId(Integer locomotiveId) {
+        this.locomotiveId = locomotiveId;
+    }
+
     public void setTrack(String trackName) {
         this.track = RailwayTrack.get(trackName);
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 
     public void changeReverseOrientation() {
@@ -88,29 +103,6 @@ public class RailwayTrain {
 
     public void setOffsetStart(int offsetStart) {
         this.offsetStart = offsetStart;
-    }
-
-    /**
-     * Присоединяет состав слева. Будем говорить, что состав other расположен слева относительно
-     * состава this, если other.offsetStart + other.railcars.size() * railcarLength <= this.offsetStart
-     */
-    public void concatenateLeft(RailwayTrain other) {
-        ArrayList<Integer> railcars = new ArrayList<>(this.railcars.size() + other.getRailcars().size());
-        railcars.addAll(other.getRailcars());
-
-        if (this.reverseOrientation) {
-            Collections.reverse(this.railcars);
-        }
-
-        if (other.getReverseOrientation()) {
-            Collections.reverse(railcars);
-        }
-
-        railcars.addAll(this.railcars);
-
-        this.offsetStart = other.getOffsetStart();
-        this.reverseOrientation = false;
-        this.railcars = railcars;
     }
 
     /**
@@ -160,42 +152,6 @@ public class RailwayTrain {
         this.offsetStart += railcarLength * railcarCount;
 
         return new RailwayTrain(left, this.time, this.offsetStart, this.track, false);
-    }
-
-    /**
-     * Отделяет от состава справа [относительно порядка вагонов в списке] railcarCount
-     * вагонов в отдельный состав
-     * @param railcarCount количество вагонов в отдельном составе
-     * @return полученный состав
-     */
-    public RailwayTrain popRight(int railcarCount) {
-        if (this.reverseOrientation) {
-            Collections.reverse(this.railcars);
-        }
-
-        int remainingNumber = this.railcars.size() - railcarCount;
-
-        ArrayList<Integer> left = new ArrayList<>(remainingNumber);
-        ArrayList<Integer> right = new ArrayList<>(railcarCount);
-
-        for (int i = 1; i < this.railcars.size(); i++) {
-            if (i < railcarCount) {
-                left.add(this.railcars.get(i));
-            } else {
-                right.add(this.railcars.get(i));
-            }
-        }
-
-        this.railcars = left;
-        this.reverseOrientation = false;
-
-        return new RailwayTrain(
-                right,
-                this.time,
-                this.offsetStart + railcarLength * remainingNumber,
-                this.track,
-                false
-        );
     }
 
 }
