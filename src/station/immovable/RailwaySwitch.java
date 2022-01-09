@@ -17,10 +17,15 @@ public class RailwaySwitch {
     private final String to;
     private final TrackConnectionType type;
 
-    public RailwaySwitch(String from, String to, TrackConnectionType type) {
+    public RailwaySwitch(String from, String to, String typeName) {
         this.from = from;
         this.to = to;
-        this.type = type;
+        switch (typeName) {
+            case "START_TO_START" -> this.type = TrackConnectionType.START_TO_START;
+            case "START_TO_END" -> this.type = TrackConnectionType.START_TO_END;
+            case "END_TO_END" -> this.type = TrackConnectionType.END_TO_END;
+            default -> this.type = TrackConnectionType.END_TO_START;
+        }
     }
 
     public String getFrom() {
