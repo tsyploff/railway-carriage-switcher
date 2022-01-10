@@ -31,11 +31,19 @@ public class Station {
     }
 
     public HashMap<Integer, RailwayTrain> getTrains() {
-        return trains;
+        return this.trains;
     }
 
     public HashMap<Integer, ShuntingLocomotive> getLocomotives() {
-        return locomotives;
+        return this.locomotives;
+    }
+
+    public RailwayTrain getTrain(int id) {
+        return this.trains.get(id);
+    }
+
+    public ShuntingLocomotive getLocomotive(int id) {
+        return this.locomotives.get(id);
     }
 
     public void addTrain(RailwayTrain train) {
@@ -53,12 +61,12 @@ public class Station {
         ArrayList<String> log = new ArrayList<>();
 
         switch (action.getActionType()) {
-            case SWITCH_MOVEMENT_DIRECTION: log.addAll(this.executeSMD((SwitchMovementDirection) action));
-            case COUPLE_WAGONS: log.addAll(this.executeCW((CoupleWagons) action));
-            case UNCOUPLE_WAGONS: log.addAll(this.executeUW((UncoupleWagons) action));
-            case COUPLE_LOCOMOTIVE: log.addAll(this.executeCL((CoupleLocomotive) action));
-            case UNCOUPLE_LOCOMOTIVE: log.addAll(this.executeUL((UncoupleLocomotive) action));
-            case MOVE_TO_ANOTHER_TRACK: log.addAll(this.executeMTAT((MoveToAnotherTrack) action));
+            case SWITCH_MOVEMENT_DIRECTION -> log.addAll(this.executeSMD((SwitchMovementDirection) action));
+            case COUPLE_WAGONS -> log.addAll(this.executeCW((CoupleWagons) action));
+            case UNCOUPLE_WAGONS -> log.addAll(this.executeUW((UncoupleWagons) action));
+            case COUPLE_LOCOMOTIVE -> log.addAll(this.executeCL((CoupleLocomotive) action));
+            case UNCOUPLE_LOCOMOTIVE -> log.addAll(this.executeUL((UncoupleLocomotive) action));
+            case MOVE_TO_ANOTHER_TRACK -> log.addAll(this.executeMTAT((MoveToAnotherTrack) action));
         }
 
         return log;
