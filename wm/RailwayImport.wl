@@ -9,6 +9,8 @@ BeginPackage["RailwayImport`"]
 
 importTrackData;
 importSwitchData;
+importTrainData;
+readLocomotive;
 
 
 (* ::Text:: *)
@@ -54,6 +56,20 @@ rules=trackSheet[[All,{1,3,4}]]/.{name_,s1_,s2_}:>Rule[name,{s1,s2}];
 types=readTrackConnectionType/@(switchSheet/.rules);
 readSwitch/@MapThread[Append,{switchSheet,types}]
 ]
+
+
+Clear[readTrain]
+readTrain[{_,_,railcar_Integer,trackName_String,offsetStart_Integer}]:=JLink`JavaNew["station.movable.RailwayTrain",railcar,0,offsetStart,trackName,False]
+
+
+Clear[importTrainData]
+importTrainData::"usage"="\:0418\:043c\:043f\:043e\:0440\:0442\:0438\:0440\:0443\:0435\:0442 \:0434\:0430\:043d\:043d\:044b\:0435 \:043e \:0432\:0430\:0433\:043e\:043d\:0430\:0445 \:0438\:0437 XLSX \:0444\:0430\:0439\:043b\:0430";
+importTrainData[filePath_String]:=With[{trainSheet=Rest@Import[filePath,{"Data",3}]},readTrain/@MapAt[Round,DeleteCases[trainSheet,{"","","","",""}]/."NULL"->0,{All,{2,3,5}}]]
+
+
+Clear[readLocomotive]
+readLocomotive::"usage"="\:0421\:043e\:0437\:0434\:0430\:0451\:0442 java \:043e\:0431\:044a\:0435\:043a\:0442 \:043b\:043e\:043a\:043e\:043c\:043e\:0442\:0438\:0432\:0430.";
+readLocomotive[{time_Integer,speed_Integer,offsetStart_Integer,trackName_String}]:=JLink`JavaNew["station.movable.ShuntingLocomotive",time,speed,offsetStart,trackName]
 
 
 (* ::Text:: *)
